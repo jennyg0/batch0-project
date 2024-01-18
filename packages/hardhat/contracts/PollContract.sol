@@ -21,10 +21,13 @@ contract PollContract {
 		address creator;
 		uint256 votesA;
 		uint256 votesB;
+		// uint256 startTime;
+		// uint256 duration;
 	}
 
 	uint256 private pollId;
 	mapping(uint256 => Poll) private polls;
+	mapping(uint256 => mapping(address => bool)) private hasVoted;
 
 	constructor() {
 		pollId = 1;
