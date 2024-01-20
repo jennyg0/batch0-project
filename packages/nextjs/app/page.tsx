@@ -16,6 +16,9 @@ const Home: NextPage = () => {
     blockConfirmations: 1,
     onBlockConfirmation: txnReceipt => {
       console.log("Transaction blockHash", txnReceipt.blockHash);
+      setQuestion("");
+      setOptionA("");
+      setOptionB("");
     },
   });
 
@@ -23,9 +26,6 @@ const Home: NextPage = () => {
     if (!isLoading && !isMining) {
       try {
         await writeAsync();
-        setQuestion("");
-        setOptionA("");
-        setOptionB("");
       } catch (error) {
         console.error("Transaction failed", error);
       }
@@ -42,6 +42,7 @@ const Home: NextPage = () => {
             <input
               type="text"
               placeholder="Enter your question"
+              value={question}
               onChange={e => setQuestion(e.target.value)}
               className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
             />
@@ -51,6 +52,7 @@ const Home: NextPage = () => {
             <input
               type="text"
               placeholder="First Option"
+              value={optionA}
               onChange={e => setOptionA(e.target.value)}
               className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
             />
@@ -60,14 +62,20 @@ const Home: NextPage = () => {
             <input
               type="text"
               placeholder="Second Option"
+              value={optionB}
               onChange={e => setOptionB(e.target.value)}
               className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
             />
           </div>
           <button
-            type="button" // Change to 'submit' if using a form submit handler
+            type="button"
             onClick={() => createPoll()}
-            className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700"
+            disabled={!question || !optionA || !optionB}
+            className={`w-full px-4 py-2 text-sm font-medium text-white rounded-md focus:outline-none ${
+              !question || !optionA || !optionB
+                ? "bg-indigo-300"
+                : "bg-indigo-600 hover:bg-indigo-700 focus:bg-indigo-700"
+            }`}
           >
             Create Poll
           </button>
