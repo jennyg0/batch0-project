@@ -11,9 +11,11 @@ const Vote: NextPage = () => {
     <>
       <div className="text-center mt-8 bg-secondary p-10">
         <h1 className="text-4xl my-0">Voting</h1>
-        <p className="text-neutral">Swipe through the polls and cast your votes.</p>
+        <p className="text-neutral">Click through the polls and cast your votes.</p>
       </div>
-      <PollSwiper polls={fetchedPolls} />
+      <div className="flex-grow flex justify-center items-center">
+        <PollSwiper polls={fetchedPolls} />
+      </div>
     </>
   );
 };
