@@ -53,6 +53,7 @@ contract PollContract {
 		newPoll.optionA = _optionA;
 		newPoll.optionB = _optionB;
 		newPoll.creator = msg.sender;
+		newPoll.endTime = block.timestamp + 24 hours;
 
 		emit PollCreated(msg.sender, pollId);
 		pollId++;
@@ -81,7 +82,8 @@ contract PollContract {
 	}
 
 	function viewPoll(
-		uint256 _pollId
+		uint256 _pollId,
+		address _user
 	)
 		external
 		view
@@ -92,7 +94,8 @@ contract PollContract {
 			string memory,
 			address,
 			uint256,
-			uint256
+			uint256,
+			bool
 		)
 	{
 		if (_pollId >= pollId) revert PollDoesNotExist();
@@ -104,7 +107,8 @@ contract PollContract {
 			poll.optionB,
 			poll.creator,
 			poll.votesA,
-			poll.votesB
+			poll.votesB,
+			poll.hasVoted[_user]
 		);
 	}
 
