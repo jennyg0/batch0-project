@@ -12,6 +12,8 @@ import "hardhat/console.sol";
  */
 contract PollContract {
 	error PollDoesNotExist();
+	error AlreadyVoted();
+	error PollExpired();
 
 	struct Poll {
 		uint256 pollId;
@@ -21,13 +23,23 @@ contract PollContract {
 		address creator;
 		uint256 votesA;
 		uint256 votesB;
+		uint256 endTime;
+		mapping(address => bool) hasVoted;
 	}
 
 	uint256 private pollId;
 	mapping(uint256 => Poll) private polls;
 
+	event PollCreated(address creator, uint256 pollId);
+	event Voted(address voter, uint256 pollId);
+
 	constructor() {
 		pollId = 1;
+	}
+
+	modifier pollNotExpired(uint256 _pollId) {
+		if (polls[_pollId].endTime < block.timestamp) revert PollExpired();
+		_;
 	}
 
 	function createPoll(
@@ -35,35 +47,68 @@ contract PollContract {
 		string calldata _optionA,
 		string calldata _optionB
 	) public {
-		Poll memory newPoll = Poll(
-			pollId,
-			_question,
-			_optionA,
-			_optionB,
-			msg.sender,
-			0,
-			0
-		);
-		polls[pollId] = newPoll;
+		Poll storage newPoll = polls[pollId];
+		newPoll.pollId = pollId;
+		newPoll.question = _question;
+		newPoll.optionA = _optionA;
+		newPoll.optionB = _optionB;
+		newPoll.creator = msg.sender;
+
+		emit PollCreated(msg.sender, pollId);
 		pollId++;
 	}
 
 	function vote(uint256 _pollId, bool _voteOnA) public {
-		if (_pollId > pollId) revert PollDoesNotExist();
+		if (_pollId >= pollId) revert PollDoesNotExist();
 
 		Poll storage poll = polls[_pollId];
+		if (poll.hasVoted[msg.sender] == true) revert AlreadyVoted();
 		if (_voteOnA) {
 			poll.votesA++;
 		} else {
 			poll.votesB++;
 		}
+		poll.hasVoted[msg.sender] = true;
+		emit Voted(msg.sender, _pollId);
 	}
 
 	function viewResults(
 		uint256 _pollId
 	) public view returns (uint256, uint256) {
-		if (_pollId > pollId) revert PollDoesNotExist();
+		if (_pollId >= pollId) revert PollDoesNotExist();
 		Poll storage poll = polls[_pollId];
 		return (poll.votesA, poll.votesB);
+	}
+
+	function viewPoll(
+		uint256 _pollId
+	)
+		external
+		view
+		returns (
+			uint256,
+			string memory,
+			string memory,
+			string memory,
+			address,
+			uint256,
+			uint256
+		)
+	{
+		if (_pollId >= pollId) revert PollDoesNotExist();
+		Poll storage poll = polls[_pollId];
+		return (
+			poll.pollId,
+			poll.question,
+			poll.optionA,
+			poll.optionB,
+			poll.creator,
+			poll.votesA,
+			poll.votesB
+		);
+	}
+
+	function getPollCount() external view returns (uint256) {
+		return pollId - 1;
 	}
 }
