@@ -17,7 +17,6 @@ export interface PollCardProps {
 
 export interface PollSwiperProps {
   polls: Poll[];
-  onRefresh: () => void;
 }
 
 export enum PollVote {

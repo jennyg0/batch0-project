@@ -14,36 +14,32 @@ export const useFetchPolls = () => {
     functionName: "getPollCount",
   });
 
-  const fetchPolls = async () => {
-    const newPolls: Poll[] = [];
-    if (!pollCount || !contract) return;
-
-    for (let i = 1; i <= pollCount; i++) {
-      const pollData = (await contract.read.viewPoll([BigInt(i)])) as PollView;
-      console.log(pollData, "this");
-      const poll: Poll = {
-        pollId: Number(pollData.pollId),
-        question: pollData.question,
-        optionA: pollData.optionA,
-        optionB: pollData.optionB,
-        creator: pollData.creator,
-        votesA: Number(pollData.votesA),
-        votesB: Number(pollData.votesB),
-        endTime: Number(pollData.endTime),
-        hasVoted: pollData.hasVoted,
-      };
-      newPolls.push(poll);
-    }
-    setPolls(newPolls);
-  };
-
   useEffect(() => {
+    const fetchPolls = async () => {
+      const newPolls: Poll[] = [];
+      if (!pollCount || !contract) return;
+
+      for (let i = 1; i <= pollCount; i++) {
+        const pollData = (await contract.read.viewPoll([BigInt(i)])) as PollView;
+
+        const poll: Poll = {
+          pollId: Number(pollData.pollId),
+          question: pollData.question,
+          optionA: pollData.optionA,
+          optionB: pollData.optionB,
+          creator: pollData.creator,
+          votesA: Number(pollData.votesA),
+          votesB: Number(pollData.votesB),
+          endTime: Number(pollData.endTime),
+          hasVoted: pollData.hasVoted,
+        };
+        newPolls.push(poll);
+      }
+      setPolls(newPolls);
+    };
+
     fetchPolls();
   }, [pollCount]);
 
-  const refreshPolls = async () => {
-    await fetchPolls();
-  };
-
-  return { polls, refreshPolls };
+  return polls;
 };

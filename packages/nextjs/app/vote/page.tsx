@@ -5,7 +5,7 @@ import PollSwiper from "~~/components/PollSwiper";
 import { useFetchPolls } from "~~/hooks/useFetchPolls";
 
 const Vote: NextPage = () => {
-  const fetchedPolls = useFetchPolls();
+  const polls = useFetchPolls();
 
   return (
     <>
@@ -14,7 +14,7 @@ const Vote: NextPage = () => {
         <p className="text-neutral">Click through the polls and cast your votes.</p>
       </div>
       <div className="flex-grow flex justify-center items-center">
-        <PollSwiper polls={fetchedPolls} />
+        <PollSwiper polls={polls} />
       </div>
     </>
   );

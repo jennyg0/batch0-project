@@ -24,7 +24,7 @@ const Results: NextPage = () => {
         {polls &&
           polls.map(poll => (
             <div className="poll-result-card bg-white p-4 rounded-lg shadow-md my-2 w-1/2 mx-auto" key={poll.pollId}>
-              <h3 className="text-lg font-semibold">{poll.question}</h3>
+              <h3 className="text-lg font-semibold text-center">{poll.question}</h3>
 
               <div className="flex justify-between mb-2">
                 <p>{poll.optionA}</p>
