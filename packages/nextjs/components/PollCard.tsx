@@ -14,13 +14,13 @@ const PollCard = ({ poll, onVote }: PollCardProps) => {
         <div className="flex justify-center space-x-4 mb-4">
           <button
             onClick={() => handleVote(PollVote.OptionA)}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-[#595967] hover:bg-[#6e7080] text-white font-bold py-2 px-4 rounded"
           >
             {poll.optionA}
           </button>
           <button
             onClick={() => handleVote(PollVote.OptionB)}
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-[#8ABAD3] hover:bg-[#7aa3bf] text-white font-bold py-2 px-4 rounded"
           >
             {poll.optionB}
           </button>

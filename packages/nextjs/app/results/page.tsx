@@ -34,11 +34,11 @@ const Results: NextPage = () => {
               <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
                 <div className="flex h-full rounded-full">
                   <div
-                    className="bg-blue-600"
+                    className="bg-[#595967]"
                     style={{ width: `${calculatePercentage(poll.votesA, poll.votesB)}%` }}
                   ></div>
                   <div
-                    className="bg-red-600"
+                    className="bg-[#8ABAD3]"
                     style={{ width: `${calculatePercentage(poll.votesB, poll.votesA)}%` }}
                   ></div>
                 </div>
