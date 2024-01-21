@@ -71,7 +71,10 @@ contract PollContract {
 		pollId++;
 	}
 
-	function vote(uint256 _pollId, bool _voteOnA) public {
+	function vote(
+		uint256 _pollId,
+		bool _voteOnA
+	) public pollNotExpired(_pollId) {
 		if (_pollId >= pollId) revert PollDoesNotExist();
 
 		Poll storage poll = polls[_pollId];

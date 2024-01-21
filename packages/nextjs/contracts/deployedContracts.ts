@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     PollContract: {
-      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      address: "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
       abi: [
         {
           inputs: [],
@@ -114,63 +114,56 @@ const deployedContracts = {
           name: "viewPoll",
           outputs: [
             {
-              internalType: "uint256",
+              components: [
+                {
+                  internalType: "uint256",
+                  name: "pollId",
+                  type: "uint256",
+                },
+                {
+                  internalType: "string",
+                  name: "question",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "optionA",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "optionB",
+                  type: "string",
+                },
+                {
+                  internalType: "address",
+                  name: "creator",
+                  type: "address",
+                },
+                {
+                  internalType: "uint256",
+                  name: "votesA",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "votesB",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "endTime",
+                  type: "uint256",
+                },
+                {
+                  internalType: "bool",
+                  name: "hasVoted",
+                  type: "bool",
+                },
+              ],
+              internalType: "struct PollContract.PollView",
               name: "",
-              type: "uint256",
-            },
-            {
-              internalType: "string",
-              name: "",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "",
-              type: "string",
-            },
-            {
-              internalType: "address",
-              name: "",
-              type: "address",
-            },
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "_pollId",
-              type: "uint256",
-            },
-          ],
-          name: "viewResults",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
+              type: "tuple",
             },
           ],
           stateMutability: "view",
