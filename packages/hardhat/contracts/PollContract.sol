@@ -27,6 +27,18 @@ contract PollContract {
 		mapping(address => bool) hasVoted;
 	}
 
+	struct PollView {
+		uint256 pollId;
+		string question;
+		string optionA;
+		string optionB;
+		address creator;
+		uint256 votesA;
+		uint256 votesB;
+		uint256 endTime;
+		bool hasVoted;
+	}
+
 	uint256 private pollId;
 	mapping(uint256 => Poll) private polls;
 
@@ -73,43 +85,21 @@ contract PollContract {
 		emit Voted(msg.sender, _pollId);
 	}
 
-	function viewResults(
-		uint256 _pollId
-	) public view returns (uint256, uint256) {
+	function viewPoll(uint256 _pollId) external view returns (PollView memory) {
 		if (_pollId >= pollId) revert PollDoesNotExist();
 		Poll storage poll = polls[_pollId];
-		return (poll.votesA, poll.votesB);
-	}
-
-	function viewPoll(
-		uint256 _pollId,
-		address _user
-	)
-		external
-		view
-		returns (
-			uint256,
-			string memory,
-			string memory,
-			string memory,
-			address,
-			uint256,
-			uint256,
-			bool
-		)
-	{
-		if (_pollId >= pollId) revert PollDoesNotExist();
-		Poll storage poll = polls[_pollId];
-		return (
-			poll.pollId,
-			poll.question,
-			poll.optionA,
-			poll.optionB,
-			poll.creator,
-			poll.votesA,
-			poll.votesB,
-			poll.hasVoted[_user]
-		);
+		return
+			PollView(
+				poll.pollId,
+				poll.question,
+				poll.optionA,
+				poll.optionB,
+				poll.creator,
+				poll.votesA,
+				poll.votesB,
+				poll.endTime,
+				poll.hasVoted[msg.sender]
+			);
 	}
 
 	function getPollCount() external view returns (uint256) {
