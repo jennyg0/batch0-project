@@ -1,15 +1,6 @@
 import { useEffect, useState } from "react";
 import { useScaffoldContract, useScaffoldContractRead } from "./scaffold-eth";
-
-interface Poll {
-  pollId: number;
-  question: string;
-  optionA: string;
-  optionB: string;
-  creator: string;
-  votesA: number;
-  votesB: number;
-}
+import { Poll, PollView } from "~~/types/polls";
 
 export const useFetchPolls = () => {
   const [polls, setPolls] = useState<Poll[]>([]);
@@ -23,30 +14,36 @@ export const useFetchPolls = () => {
     functionName: "getPollCount",
   });
 
+  const fetchPolls = async () => {
+    const newPolls: Poll[] = [];
+    if (!pollCount || !contract) return;
+
+    for (let i = 1; i <= pollCount; i++) {
+      const pollData = (await contract.read.viewPoll([BigInt(i)])) as PollView;
+      console.log(pollData, "this");
+      const poll: Poll = {
+        pollId: Number(pollData.pollId),
+        question: pollData.question,
+        optionA: pollData.optionA,
+        optionB: pollData.optionB,
+        creator: pollData.creator,
+        votesA: Number(pollData.votesA),
+        votesB: Number(pollData.votesB),
+        endTime: Number(pollData.endTime),
+        hasVoted: pollData.hasVoted,
+      };
+      newPolls.push(poll);
+    }
+    setPolls(newPolls);
+  };
+
   useEffect(() => {
-    const fetchPolls = async () => {
-      const newPolls: Poll[] = [];
-      if (!pollCount || !contract) return;
-
-      for (let i = 1; i <= pollCount; i++) {
-        const pollData = await contract.read.viewPoll([BigInt(i)]);
-        const poll: Poll = {
-          pollId: Number(pollData[0]),
-          question: pollData[1],
-          optionA: pollData[2],
-          optionB: pollData[3],
-          creator: pollData[4],
-          votesA: Number(pollData[5]),
-          votesB: Number(pollData[6]),
-        };
-        newPolls.push(poll);
-      }
-
-      setPolls(newPolls);
-    };
-
     fetchPolls();
   }, [pollCount]);
 
-  return polls;
+  const refreshPolls = async () => {
+    await fetchPolls();
+  };
+
+  return { polls, refreshPolls };
 };

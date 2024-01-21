@@ -6,6 +6,7 @@ export interface Poll {
   creator: string;
   votesA: number;
   votesB: number;
+  endTime: number;
   hasVoted: boolean;
 }
 
@@ -16,10 +17,23 @@ export interface PollCardProps {
 
 export interface PollSwiperProps {
   polls: Poll[];
+  onRefresh: () => void;
 }
 
 export enum PollVote {
   OptionA = "true",
   OptionB = "false",
   Skip = "skip",
+}
+
+export interface PollView {
+  pollId: bigint;
+  question: string;
+  optionA: string;
+  optionB: string;
+  creator: string;
+  votesA: bigint;
+  votesB: bigint;
+  endTime: bigint;
+  hasVoted: boolean;
 }
