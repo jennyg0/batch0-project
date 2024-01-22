@@ -8,7 +8,7 @@ const PollCard = ({ poll, onVote }: PollCardProps) => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg w-96 min-h-40 flex flex-col justify-between">
       <div className="flex justify-center space-x-4 mb-2">
-        <h3 className="text-xl font-bold mb-4">{poll.question}</h3>
+        <h3 className="text-xl font-bold mb-2 text-center">{poll.question}</h3>
       </div>
       <div className="mt-4">
         <div className="flex justify-center space-x-4 mb-4">
