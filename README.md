@@ -2,7 +2,7 @@
 
 This build is a blockchain-powered polling application that allows users to create polls, vote, and view the results on topics that matter to them. Built with solidity and nextjs, it features transparent voting mechanisms and real-time results visualization.
 
-![Video Demo]()
+![Video Demo](https://youtu.be/OlnNJpletE0)
 
 ## Requirements
 
