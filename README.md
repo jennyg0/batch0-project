@@ -12,7 +12,7 @@ This build is a blockchain-powered polling application that allows users to crea
 
 #### Video Demo
 
-![Video Demo](https://img.youtube.com/vi/OlnNJpletE0/maxresdefault.jpg)
+[![Watch the video](https://img.youtube.com/vi/OlnNJpletE0/maxresdefault.jpg)](https://youtu.be/OlnNJpletE0)
 
 ## Requirements
 
